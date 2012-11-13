@@ -4,7 +4,7 @@
 # http://doc.scrapy.org/topics/items.html
 
 from scrapy.item import Item, Field
-from picker.capturing.models import TextSite
+from capturing.models import TextSite
 
 class DmozItem(Item):
     # site_model = TextSite

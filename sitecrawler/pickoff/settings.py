@@ -18,10 +18,7 @@ NEWSPIDER_MODULE = 'pickoff.spiders'
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
 #USER_AGENT = 'pickoff (+http://www.yourdomain.com)'
 
-os.environ['DJANGO_SETTINGS_MODULE'] = '/home/alexkos/Projects/picker/picker/picker/settings'
-
 current_dir = os.path.abspath(os.path.dirname(os.path.dirname(__file__)))
-django_app = os.path.join(current_dir, '../../')
-sys.path.append(django_app)
-
-p(sys.path)
+django_app = os.path.join(current_dir, '../')
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "picker.settings")
+sys.path.insert(0, django_app)
