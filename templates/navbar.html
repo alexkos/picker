@@ -1,0 +1,36 @@
+<div class="navbar navbar-inverse navbar-fixed-top">
+    <div class="navbar-inner">
+        <div class="container">
+            <a class="brand" href="{% url main %}">SEARCH</a>
+            <div class="nav-collapse collapse">
+                <ul class="nav">
+                    <li class="active"><a href="{% url main %}">Capture info</a></li>
+                {% if user.is_authenticated %}
+                    <li><a href="{% url search %}">Search</a></li>
+                {% endif %}
+                </ul>
+         
+                {% if user.is_authenticated %}
+                <form class="navbar-form pull-right" action="{% url user_logout %}" method="post">
+                    {% csrf_token %}
+                    <input type="hidden" name="next_page" value="{{ next_page }}" />
+                    <button type="submit" class="btn">Log out</button>
+                </form>
+                <p class="navbar-text pull-right">
+                    <a href="" class="navbar-link pull-right username">{{user.username}}</a>
+                </p>
+                    
+                {% else %}
+                <form class="navbar-form pull-right" action="{% url user_login %}" method="post">
+                    {% csrf_token %}
+                    <input class="span2" type="text" placeholder="Email">
+                    <input class="span2" type="password" placeholder="Password">
+                    <input type="hidden" name="next" value="{{ next }}" />
+                    <button type="submit" class="btn">Sign in</button>
+                </form>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
