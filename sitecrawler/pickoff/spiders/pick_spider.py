@@ -33,16 +33,6 @@ class PickSpider(CrawlSpider):
         print item
         print '===================='
 
+        return items
         # print '---------------------'
-            
-        # items = []
-        # for site in sites:
-        #     item = DmozItem()
-        #     item['url']   = response.url
-        #     item['title'] = site.select('//title/text()').extract()
-        #     item['text']  = site.select('//*/text()').extract()
-        #     items.append(item)
-
         # print '===================='
-
-        # return items
