@@ -3,12 +3,13 @@
         <div class="container">
             <a class="brand" href="{% url main %}">SEARCH</a>
             <div class="nav-collapse collapse">
-                <ul class="nav">
-                    <li class="active"><a href="{% url main %}">Capture info</a></li>
                 {% if user.is_authenticated %}
+                <ul class="nav">
+                    <li class="active"><a href="{% url main %}">New</a></li>
+                    <li><a href="{% url search %}">Sites</a></li>
                     <li><a href="{% url search %}">Search</a></li>
-                {% endif %}
                 </ul>
+                {% endif %}
          
                 {% if user.is_authenticated %}
                 <form class="navbar-form pull-right" action="{% url user_logout %}" method="post">

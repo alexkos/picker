@@ -4,7 +4,11 @@
 
 {% block content %}
     {% if user.is_authenticated %}
-    	<p>{{user.username}}</p>
+    <form class="form-search" action="{% url main %}" method="POST">
+        {% csrf_token %}
+        {{form}}
+        <button type="submit" class="btn">Pick</button>
+    </form>
     {% else %}
     <div class="hero-unit">
         <h1>Hello, world!</h1>
