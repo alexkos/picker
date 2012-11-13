@@ -27,7 +27,7 @@ class PickSpider(CrawlSpider):
         item = DmozItem()
         item['url']   = response.url
         item['title'] = sites.select('//title/text()').extract()
-        item['text']  = sites.select('//*/text()').extract()
+        # item['text']  = sites.select('//*/text()').extract()
 
         print '===================='
         print item
