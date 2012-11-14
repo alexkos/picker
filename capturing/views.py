@@ -20,7 +20,8 @@ def index(request):
                 site = NewSites(url=url, user=user)
                 site.save()
                 path = os.path.join(os.path.abspath(os.path.dirname(__file__)),'../sitecrawler')
-                # os.popen('cd %s && scrapy crawl dmoz' % path)
+                os.popen('cd %s && scrapy crawl dmoz -a urls=http://%s/ -a address_domains=%s' 
+                    % (path, url, url))
 
                 return HttpResponseRedirect(request.path) #reverse
     else:
