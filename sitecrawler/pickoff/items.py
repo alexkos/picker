@@ -11,3 +11,4 @@ class DmozItem(Item):
     url   = Field()
     title = Field()
     text  = Field()
+    site  = Field()

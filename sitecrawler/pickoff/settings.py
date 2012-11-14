@@ -14,6 +14,7 @@ BOT_NAME = 'pickoff'
 
 SPIDER_MODULES = ['pickoff.spiders']
 NEWSPIDER_MODULE = 'pickoff.spiders'
+ITEM_PIPELINES = ['pickoff.pipelines.SitePipeline']
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
 #USER_AGENT = 'pickoff (+http://www.yourdomain.com)'
