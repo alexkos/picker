@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block title %} Display sites {% endblock %}
+
+{% block content %}
+    {% if user.is_authenticated %}
+        <form method="post" action="{% url links %}">
+            {% csrf_token %}
+            {{form_links}}
+            <input type="submit" value="Display"/>
+        </form>
+    {% else %}
+    {% endif %}
+{% endblock %}

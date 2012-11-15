@@ -10,6 +10,7 @@ admin.autodiscover()
 
 urlpatterns = patterns('capturing.views',
     url(r'^$', 'index', name='main'),
+    url(r'^display-links/$', 'display_links', name='links'),
     url(r'^search/$', 'search', name='search'),
     # Examples:
     # url(r'^$', 'picker.views.home', name='home'),
