@@ -12,11 +12,7 @@ class PickSpider(CrawlSpider):
         self.allowed_domains = ["%s" % address_domains]
     name = "dmoz"
 
-    rules = (
-        # Rule(SgmlLinkExtractor(allow=('/\w+/')), follow=True),
-        Rule(SgmlLinkExtractor(allow=('/\w+/')), callback='parse_item'),
-    )
-    # rules = (Rule(SgmlLinkExtractor(allow=('/en/0.16/')), callback='parse_item'),)
+    rules = (Rule(SgmlLinkExtractor(allow=('\/\w+', '(\/\w+)+/'), ), callback='parse_item'), )
 
     def parse_item(self, response):
         hxs = HtmlXPathSelector(response)
