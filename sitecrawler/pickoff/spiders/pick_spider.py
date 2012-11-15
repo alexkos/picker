@@ -8,9 +8,6 @@ from scrapy.contrib.linkextractors.sgml import SgmlLinkExtractor
 class PickSpider(CrawlSpider):
     def __init__(self, address_domains=None, urls=None):
         super(PickSpider, self).__init__()
-        print '---------------------'
-        print address_domains,urls
-        print '---------------------'
         self.start_urls      = ["%s" % urls]
         self.allowed_domains = ["%s" % address_domains]
     name = "dmoz"
@@ -29,7 +26,7 @@ class PickSpider(CrawlSpider):
         item['url']   = response.url
         item['title'] = sites.select('//title/text()').extract()
         item['text']  = sites.select('//*/text()').extract()
-        item['site']  = self.allowed_domains[0]
+        item['site']  = self.start_urls[0]
 
         return item
         # print '---------------------'

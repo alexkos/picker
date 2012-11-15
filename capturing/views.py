@@ -17,7 +17,7 @@ def index(request):
 
             if form.is_valid():
                 url    = form.cleaned_data['url']
-                domain = url[7:-1]
+                domain = url.split('/')[2]
                 user   = User.objects.get(id=userid)
                 site   = NewSites(url=url, user=user)
                 site.save()
