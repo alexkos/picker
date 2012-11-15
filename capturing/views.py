@@ -42,7 +42,13 @@ def display_links(request):
             userid = request.user.id
             form   = FormDom(userid)
             if request.GET:
-                print request.GET
+                siteid = request.GET['domen']
+                data   = NewSites.objects.get(id=siteid)
+
+                return render_to_response('display_links.html', 
+                                          {'form_links':form,
+                                           'site':data,},
+                                           context_instance=context)
         return render_to_response('display_links.html', 
                                   {'form_links':form},
                                    context_instance=context)
