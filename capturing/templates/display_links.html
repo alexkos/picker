@@ -9,7 +9,22 @@
             {{form_links}}
             <input type="submit" value="Display"/>
         </form>
-            
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>URL</th>
+                    <th>Title</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for link in links.textsite_set.all %}
+                <tr>
+                    <td><a href="{{link.url}}" class="">{{link.url}}</td>
+                    <td>{{link.title}}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
     {% else %}
     {% endif %}
 {% endblock %}
