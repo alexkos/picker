@@ -10,18 +10,13 @@ from django.db.utils import IntegrityError
 class SitePipeline(object):
     def process_item(self, item, spider):
         site_obj = NewSites.objects.get(url=item['site'])
-        print '#################################'
-        print item['site']
-        print '#################################'
         textsite = TextSite(url=item['url'],
                           title=item['title'],
                           text =item['text'],
                           site =site_obj
                           )
         textsite.save()
-        # print '#################################'
-        # print textsite.url, textsite.title, textsite.text, textsite.site
         # try:
-        # except Exception, e:
+        # except IntegrityError, e:
         #     print e
         return item

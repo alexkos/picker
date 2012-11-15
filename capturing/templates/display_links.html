@@ -4,7 +4,7 @@
 
 {% block content %}
     {% if user.is_authenticated %}
-        <form method="post" action="{% url links %}">
+        <form method="GET" action="{% url links %}">
             {% csrf_token %}
             {{form_links}}
             <input type="submit" value="Display"/>
