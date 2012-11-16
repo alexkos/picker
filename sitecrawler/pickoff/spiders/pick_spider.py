@@ -16,11 +16,21 @@ class PickSpider(CrawlSpider):
 
     def parse_item(self, response):
         hxs = HtmlXPathSelector(response)
-        sites = hxs.select('//html')
+        sites = hxs.select('//html/body')
 
         text = ''
-        for site in sites.select('//*/text()').extract():
+        
+        # ex = sites.select('//*[not(contains(@type,"text/javascript"))]/text()').extract()       
+        # ex = sites.select('//body/child::*[not(contains(@type,"text/javascript"))]/text()').extract()       
+        # print '---------------------'
+        # print ex
+        # print '===================='
+        
+        # for site in sites.select('//*[not(contains(@type,"text/javascript"))][not(contains(@type,"text/javascript"))]/text()').extract():
+        for site in sites.select('//*[not(self::script)]/text()').extract():
             text += site
+        # for site in sites.select('//*/text()').extract():
+        #     text += site
         
         item = DmozItem()
         item['url']   = response.url
@@ -28,9 +38,6 @@ class PickSpider(CrawlSpider):
         item['text']  = text
         item['site']  = self.start_urls[0]
         
-        # item['text']  = sites.select('//*/text()').extract()
-
         return item
         # print '---------------------'
         # print '===================='
-
