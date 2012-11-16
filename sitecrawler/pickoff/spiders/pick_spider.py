@@ -18,12 +18,19 @@ class PickSpider(CrawlSpider):
         hxs = HtmlXPathSelector(response)
         sites = hxs.select('//html')
 
+        text = ''
+        for site in sites.select('//*/text()').extract():
+            text += site
+        
         item = DmozItem()
         item['url']   = response.url
         item['title'] = sites.select('//title/text()').extract()
-        item['text']  = sites.select('//*/text()').extract()
+        item['text']  = text
         item['site']  = self.start_urls[0]
+        
+        # item['text']  = sites.select('//*/text()').extract()
 
         return item
         # print '---------------------'
         # print '===================='
+
