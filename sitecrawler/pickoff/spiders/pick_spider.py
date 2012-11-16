@@ -20,12 +20,12 @@ class PickSpider(CrawlSpider):
 
         text = ''
         
-        for site in sites.select('//*[not(self::script)]/text()').extract():
+        for site in sites.select('//*[not(self::script)][not(self::style)]/text()').extract():
             text += site
         
         item = DmozItem()
         item['url']   = response.url
-        item['title'] = sites.select('//title/text()').extract()
+        item['title'] = sites.select('//title/text()').extract()[0]
         item['text']  = text
         item['site']  = self.start_urls[0]
         
