@@ -16,3 +16,15 @@ class FormDom(forms.Form):
         self.fields['domen'].choices = choices
 
     domen = forms.ChoiceField()
+
+class FormSearchText(forms.Form):
+    def __init__(self,userid,*args,**kwargs):
+        super (FormSearchText,self ).__init__(*args,**kwargs)
+
+        sites    = NewSites.objects.filter(user=1).values_list('url',flat=True)
+        siteid   = NewSites.objects.filter(user=1).values_list('id',flat=True)
+        choices  = zip(siteid, sites)
+        self.fields['domen'].choices = choices
+
+    domen = forms.ChoiceField()
+    text  = forms.CharField()

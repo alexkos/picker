@@ -2,10 +2,10 @@ import os
 from django.template import RequestContext
 from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
-from capturing.forms import FormSite, FormDom
 from capturing.models import NewSites, TextSite
 from django.shortcuts import render_to_response
 from django.http import HttpResponse, HttpResponseRedirect
+from capturing.forms import FormSite, FormDom,FormSearchText
 
 def index(request):
     context = RequestContext(request)
@@ -42,13 +42,14 @@ def display_links(request):
             userid = request.user.id
             form   = FormDom(userid)
             if request.GET:
-                siteid = request.GET['domen']
-                data   = NewSites.objects.get(id=siteid)
+                if request.GET['domen']:
+                    siteid = request.GET['domen']
+                    data   = NewSites.objects.get(id=siteid)
 
-                return render_to_response('display_links.html', 
-                                          {'form_links':form,
-                                           'links':data,},
-                                           context_instance=context)
+                    return render_to_response('display_links.html', 
+                                              {'form_links':form,
+                                               'links':data,},
+                                               context_instance=context)
 
         return render_to_response('display_links.html', 
                                   {'form_links':form},
@@ -56,7 +57,22 @@ def display_links(request):
 
 def search(request):
     context = RequestContext(request)
+
+    if request.method == 'GET':
+        if request.user.is_authenticated():
+            userid = request.user.id
+            form   = FormSearchText(userid)
+
+            if request.GET:
+                if request.GET['domen']:
+                    siteid = request.GET['domen']
+                    data   = NewSites.objects.get(id=siteid)
+
+                    return render_to_response('search.html', 
+                                              {'form_search':form,},
+                                               context_instance=context)
     
     return render_to_response('search.html', 
+                             {'form_search':form,},
                                context_instance=context)
 
