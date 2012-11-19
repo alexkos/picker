@@ -10,8 +10,8 @@ class FormDom(forms.Form):
     def __init__(self,userid,*args,**kwargs):
         super (FormDom,self ).__init__(*args,**kwargs)
 
-        sites    = NewSites.objects.filter(user=1).values_list('url',flat=True)
-        siteid   = NewSites.objects.filter(user=1).values_list('id',flat=True)
+        sites    = NewSites.objects.filter(user=userid).values_list('url',flat=True)
+        siteid   = NewSites.objects.filter(user=userid).values_list('id',flat=True)
         choices  = zip(siteid, sites)
         self.fields['domen'].choices = choices
 
@@ -21,8 +21,8 @@ class FormSearchText(forms.Form):
     def __init__(self,userid,*args,**kwargs):
         super (FormSearchText,self ).__init__(*args,**kwargs)
 
-        sites    = NewSites.objects.filter(user=1).values_list('url',flat=True)
-        siteid   = NewSites.objects.filter(user=1).values_list('id',flat=True)
+        sites    = NewSites.objects.filter(user=userid).values_list('url',flat=True)
+        siteid   = NewSites.objects.filter(user=userid).values_list('id',flat=True)
         choices  = zip(siteid, sites)
         self.fields['domen'].choices = choices
 
