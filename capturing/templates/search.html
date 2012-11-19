@@ -7,9 +7,12 @@
         <form class="form-search" action="{% url search %}" method="GET">
             {% csrf_token %}
             <div class="input-append">
-	            {{form_search}}
+                {{form_search}}
                 <button type="submit" class="btn">Search</button>
             </div>
         </form>
+        <ul class="unstyled">
+            <li></li>
+        </ul>
     </div>
 {% endblock%}
