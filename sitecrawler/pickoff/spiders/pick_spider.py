@@ -20,7 +20,7 @@ class PickSpider(CrawlSpider):
 
         text = ''
         
-        for site in sites.select('//*[not(self::script)][not(self::style)]/text()').extract():
+        for site in sites.select('//*[not(self::script)][not(self::style)][not(self::title)]/text()').extract():
             text += site
         
         item = DmozItem()

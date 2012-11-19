@@ -11,8 +11,13 @@
                 <button type="submit" class="btn">Search</button>
             </div>
         </form>
+
         <ul class="unstyled">
-            <li></li>
+            {% for page in pages %}
+            <li><a href="{{page.url}}">{{page.url}}</a></li>
+            <li>{{page.title}}</li>
+            <li><p>{{page.text}}</p></li>
+            {% endfor %}
         </ul>
     </div>
 {% endblock%}

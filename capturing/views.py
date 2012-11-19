@@ -64,14 +64,22 @@ def search(request):
             form   = FormSearchText(userid)
 
             if request.GET:
-                if request.GET['domen']:
+                if request.GET['domen'] and request.GET['text']:
                     siteid = request.GET['domen']
+                    search = request.GET['text']
                     data   = NewSites.objects.get(id=siteid)
 
+                    pages  = data.textsite_set.extra(where=['text_tsv @@ plainto_tsquery(%s)'],
+                                                     params=[search])
+                    txt = []
+                    for page in pages:
+                        if search in page.text:
+                            txt.append(page.text)
                     return render_to_response('search.html', 
-                                              {'form_search':form,},
+                                              {'form_search':form,
+                                               'pages': pages},
                                                context_instance=context)
-    
+        
     return render_to_response('search.html', 
                              {'form_search':form,},
                                context_instance=context)
