@@ -8,10 +8,8 @@ admin.autodiscover()
 
 # Uncomment the next two lines to enable the admin:
 
-urlpatterns = patterns('capturing.views',
-    url(r'^$', 'index', name='main'),
-    url(r'^display-links/$', 'display_links', name='links'),
-    url(r'^search/$', 'search', name='search'),
+urlpatterns = patterns('',
+    (r'', include('capturing.urls')),
     # Examples:
     # url(r'^$', 'picker.views.home', name='home'),
     # url(r'^picker/', include('picker.foo.urls')),
@@ -43,4 +41,4 @@ urlpatterns += patterns('django.contrib.auth.views',
 
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
-    # urlpatterns += staticfiles_urlpatterns()
+    urlpatterns += staticfiles_urlpatterns()

@@ -2,9 +2,16 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.template.defaultfilters import slugify
 
+class CreateSiteManager(models.Manager):
+    def create_site(self, url, user):
+        new_site = NewSites.objects.create(url=url, user=user)
+        new_site.save()
+
 class NewSites(models.Model):
     url  = models.CharField(max_length=100, unique=True)
     user = models.ForeignKey(User)
+
+    objects = CreateSiteManager()
 
     def __unicode__(self):
         return self.url

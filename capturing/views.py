@@ -16,11 +16,10 @@ def index(request):
             form   = FormSite(request.POST)
 
             if form.is_valid():
-                url    = form.cleaned_data['url']
-                domain = url.split('/')[2]
-                user   = User.objects.get(id=userid)
-                site   = NewSites(url=url, user=user)
-                site.save()
+                url     = form.cleaned_data['url']
+                domain  = url.split('/')[2]
+                user    = User.objects.get(id=userid)
+                newsite = NewSites.objects.create_site(url, user)
 
                 path = os.path.join(os.path.abspath(os.path.dirname(__file__)),'../sitecrawler')
                 os.popen('cd %s && scrapy crawl dmoz -a urls=%s -a address_domains=%s' 
@@ -31,7 +30,7 @@ def index(request):
         form = FormSite()
 
         return render_to_response('enter_url.html', 
-                                  {'form':form},
+                                  {'form_site':form},
                                    context_instance=context)
 
 def display_links(request):
@@ -80,7 +79,7 @@ def search(request):
                                                'pages': pages},
                                                context_instance=context)
         
-    return render_to_response('search.html', 
-                             {'form_search':form,},
-                               context_instance=context)
+            return render_to_response('search.html', 
+                                     {'form_search':form,},
+                                       context_instance=context)
 
