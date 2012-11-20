@@ -5,7 +5,7 @@ from django.core.urlresolvers import reverse
 from capturing.models import NewSites, TextSite
 from django.shortcuts import render_to_response
 from django.http import HttpResponse, HttpResponseRedirect
-from capturing.forms import FormSite, FormDom,FormSearchText
+from capturing.forms import FormSite, FormDom, FormSearchText
 
 def index(request):
     context = RequestContext(request)
@@ -22,7 +22,7 @@ def index(request):
                 newsite = NewSites.objects.create_site(url, user)
 
                 path = os.path.join(os.path.abspath(os.path.dirname(__file__)),'../sitecrawler')
-                os.popen('cd %s && scrapy crawl dmoz -a urls=%s -a address_domains=%s' 
+                os.popen('cd %s && scrapy crawl pick -a urls=%s -a address_domains=%s' 
                     % (path, url, domain))
 
                 return HttpResponseRedirect(reverse(index)) #reverse

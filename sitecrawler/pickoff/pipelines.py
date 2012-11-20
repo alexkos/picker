@@ -6,7 +6,6 @@
 from capturing.models import NewSites, TextSite
 from django.db.utils import IntegrityError
 
-
 class SitePipeline(object):
     def process_item(self, item, spider):
         site_obj = NewSites.objects.get(url=item['site'])

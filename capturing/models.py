@@ -8,7 +8,7 @@ class CreateSiteManager(models.Manager):
         new_site.save()
 
 class NewSites(models.Model):
-    url  = models.CharField(max_length=100)
+    url  = models.URLField(max_length=100)
     user = models.ForeignKey(User)
 
     objects = CreateSiteManager()
@@ -17,7 +17,7 @@ class NewSites(models.Model):
         return self.url
 
 class TextSite(models.Model):
-    url   = models.CharField(max_length=100)
+    url   = models.URLField(max_length=100)
     title = models.CharField(max_length=200)
     text  = models.TextField()
     site  = models.ForeignKey(NewSites)

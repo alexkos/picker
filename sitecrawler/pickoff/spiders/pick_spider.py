@@ -10,7 +10,7 @@ class PickSpider(CrawlSpider):
         super(PickSpider, self).__init__()
         self.start_urls      = ["%s" % urls]
         self.allowed_domains = ["%s" % address_domains]
-    name = "dmoz"
+    name = "pick"
 
     rules = (Rule(SgmlLinkExtractor(allow=('\/\w+', '(\/\w+)+/'), ), callback='parse_item'), )
 
