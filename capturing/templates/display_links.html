@@ -4,10 +4,12 @@
 
 {% block content %}
     {% if user.is_authenticated %}
-        <form method="GET" action="{% url links %}">
-            {% csrf_token %}
-            {{form_links}}
-            <input type="submit" value="Display"/>
+        <form class="form-search" method="GET" action="{% url links %}">
+            <div class="input-append">
+                {% csrf_token %}
+                {{form_links}}
+                <input type="submit" class="btn btn-primary" value="Display"/>
+            </div>
         </form>
         <table class="table table-striped">
             <thead>

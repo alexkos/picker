@@ -23,7 +23,7 @@ def main_page(request):
     return render_to_response('main_page.html', 
                                context_instance=context)
 
-@authorization_dec
+@login_required
 def capture(request):
     context = RequestContext(request)
 
@@ -49,13 +49,13 @@ def capture(request):
                                   {'form_site':form},
                                    context_instance=context)
 
-@authorization_dec
+@login_required
 def display_links(request):
     context = RequestContext(request)
     
     if request.method == 'GET':
         userid = request.user.id
-        form   = FormDom(userid)
+        form   = FormDom(userid, auto_id=False)
         if request.GET:
             if request.GET['domen']:
                 siteid = request.GET['domen']
@@ -69,13 +69,13 @@ def display_links(request):
         return render_to_response('display_links.html', 
                                   {'form_links':form},
                                    context_instance=context)
-@authorization_dec
+@login_required
 def search(request):
     context = RequestContext(request)
 
     if request.method == 'GET':
         userid = request.user.id
-        form   = FormSearchText(userid)
+        form   = FormSearchText(userid, auto_id=False)
 
         if request.GET:
             if request.GET['domen'] and request.GET['text']:

@@ -4,7 +4,9 @@ from capturing.models import NewSites
 from django.contrib.auth.models import User
 
 class FormSite(forms.Form):
-    url = forms.URLField(max_length=100)
+    url = forms.URLField(max_length=100, 
+                         widget=forms.TextInput(attrs={'placeholder': 'Enter url',
+                                                       }))
 
 class FormDom(forms.Form):
     def __init__(self,userid,*args,**kwargs):
@@ -27,4 +29,6 @@ class FormSearchText(forms.Form):
         self.fields['domen'].choices = choices
 
     domen = forms.ChoiceField()
-    text  = forms.CharField()
+    text  = forms.CharField(max_length=100, 
+                         widget=forms.TextInput(attrs={'placeholder': 'Enter word',
+                                                       }))
