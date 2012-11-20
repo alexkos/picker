@@ -5,9 +5,17 @@
 {% block content %}
     {% if user.is_authenticated %}
     <form class="form-search" action="{% url capture %}" method="POST">
-        {% csrf_token %}
-        {{form_site}}
-        <button type="submit" class="btn">Pick</button>
+        <div class="input-append">
+            {% csrf_token %}
+            {{form_site}}
+            <button type="submit" class="btn">Pick</button>
+        </div>
     </form>
     {% endif %}
 {% endblock %}
+
+<form class="form-search">
+  <div class="input-append">
+    <input type="text" class="span2 search-query">
+    <button type="submit" class="btn">Search</button>
+  </div>

@@ -12,7 +12,6 @@ from capturing.forms import FormSite, FormDom, FormSearchText
 def authorization_dec(view):
     def wrap(request):
         if request.user.is_authenticated():
-            print request.user
             return view(request)
         else:
             return HttpResponseRedirect(reverse(main_page))
@@ -44,7 +43,7 @@ def capture(request):
 
             return HttpResponseRedirect(reverse(capture)) #reverse
     else:
-        form = FormSite()
+        form = FormSite(auto_id=False)
 
         return render_to_response('enter_url.html', 
                                   {'form_site':form},
