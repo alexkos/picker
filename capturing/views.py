@@ -2,30 +2,47 @@ import os
 from django.template import RequestContext
 from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
+from picker.settings import LOGIN_REDIRECT_URL
 from capturing.models import NewSites, TextSite
 from django.shortcuts import render_to_response
+from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, HttpResponseRedirect
 from capturing.forms import FormSite, FormDom, FormSearchText
 
-def index(request):
+def authorization_dec(view):
+    def wrap(request):
+        if request.user.is_authenticated():
+            print request.user
+            return view(request)
+        else:
+            return HttpResponseRedirect(reverse(main_page))
+    return wrap
+
+def main_page(request):
+    context = RequestContext(request)
+
+    return render_to_response('main_page.html', 
+                               context_instance=context)
+
+@authorization_dec
+def capture(request):
     context = RequestContext(request)
 
     if request.method == 'POST':
-        if request.user.is_authenticated():
-            userid = request.user.id
-            form   = FormSite(request.POST)
+        userid = request.user.id
+        form   = FormSite(request.POST)
 
-            if form.is_valid():
-                url     = form.cleaned_data['url']
-                domain  = url.split('/')[2]
-                user    = User.objects.get(id=userid)
-                newsite = NewSites.objects.create_site(url, user)
+        if form.is_valid():
+            url     = form.cleaned_data['url']
+            domain  = url.split('/')[2]
+            user    = User.objects.get(id=userid)
+            newsite = NewSites.objects.create_site(url, user)
 
-                path = os.path.join(os.path.abspath(os.path.dirname(__file__)),'../sitecrawler')
-                os.popen('cd %s && scrapy crawl pick -a urls=%s -a address_domains=%s -a userid=%s' 
-                    % (path, url, domain, userid))
+            path = os.path.join(os.path.abspath(os.path.dirname(__file__)),'../sitecrawler')
+            os.popen('cd %s && scrapy crawl pick -a urls=%s -a address_domains=%s -a userid=%s' 
+                % (path, url, domain, userid))
 
-                return HttpResponseRedirect(reverse(index)) #reverse
+            return HttpResponseRedirect(reverse(capture)) #reverse
     else:
         form = FormSite()
 
@@ -33,53 +50,52 @@ def index(request):
                                   {'form_site':form},
                                    context_instance=context)
 
+@authorization_dec
 def display_links(request):
     context = RequestContext(request)
     
     if request.method == 'GET':
-        if request.user.is_authenticated():
-            userid = request.user.id
-            form   = FormDom(userid)
-            if request.GET:
-                if request.GET['domen']:
-                    siteid = request.GET['domen']
-                    data   = NewSites.objects.get(id=siteid)
+        userid = request.user.id
+        form   = FormDom(userid)
+        if request.GET:
+            if request.GET['domen']:
+                siteid = request.GET['domen']
+                data   = NewSites.objects.get(id=siteid)
 
-                    return render_to_response('display_links.html', 
-                                              {'form_links':form,
-                                               'links':data,},
-                                               context_instance=context)
+                return render_to_response('display_links.html', 
+                                          {'form_links':form,
+                                           'links':data,},
+                                           context_instance=context)
 
         return render_to_response('display_links.html', 
                                   {'form_links':form},
                                    context_instance=context)
-
+@authorization_dec
 def search(request):
     context = RequestContext(request)
 
     if request.method == 'GET':
-        if request.user.is_authenticated():
-            userid = request.user.id
-            form   = FormSearchText(userid)
+        userid = request.user.id
+        form   = FormSearchText(userid)
 
-            if request.GET:
-                if request.GET['domen'] and request.GET['text']:
-                    siteid = request.GET['domen']
-                    search = request.GET['text']
-                    data   = NewSites.objects.get(id=siteid)
+        if request.GET:
+            if request.GET['domen'] and request.GET['text']:
+                siteid = request.GET['domen']
+                search = request.GET['text']
+                data   = NewSites.objects.get(id=siteid)
 
-                    pages  = data.textsite_set.extra(where=['text_tsv @@ plainto_tsquery(%s)'],
-                                                     params=[search])
-                    txt = []
-                    for page in pages:
-                        if search in page.text:
-                            txt.append(page.text)
-                    return render_to_response('search.html', 
-                                              {'form_search':form,
-                                               'pages': pages},
-                                               context_instance=context)
-        
-            return render_to_response('search.html', 
-                                     {'form_search':form,},
-                                       context_instance=context)
+                pages  = data.textsite_set.extra(where=['text_tsv @@ plainto_tsquery(%s)'],
+                                                 params=[search])
+                txt = []
+                for page in pages:
+                    if search in page.text:
+                        txt.append(page.text)
+                return render_to_response('search.html', 
+                                          {'form_search':form,
+                                           'pages': pages},
+                                           context_instance=context)
+    
+        return render_to_response('search.html', 
+                                 {'form_search':form,},
+                                   context_instance=context)
 

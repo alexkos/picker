@@ -31,7 +31,8 @@ urlpatterns += patterns('',
 urlpatterns += patterns('django.contrib.auth.views',
 
     url(r'^login/$', 'login', 
-        {'template_name'       : 'login/login.html',},
+        {'template_name'       : 'login/login.html',
+         'redirect_field_name' : 'next'},
         name="user_login"),
 
     url(r'^logout/$', 'logout', 
@@ -41,4 +42,4 @@ urlpatterns += patterns('django.contrib.auth.views',
 
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
-    urlpatterns += staticfiles_urlpatterns()
+    # urlpatterns += staticfiles_urlpatterns()
