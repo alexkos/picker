@@ -22,8 +22,8 @@ def index(request):
                 newsite = NewSites.objects.create_site(url, user)
 
                 path = os.path.join(os.path.abspath(os.path.dirname(__file__)),'../sitecrawler')
-                os.popen('cd %s && scrapy crawl pick -a urls=%s -a address_domains=%s' 
-                    % (path, url, domain))
+                os.popen('cd %s && scrapy crawl pick -a urls=%s -a address_domains=%s -a userid=%s' 
+                    % (path, url, domain, userid))
 
                 return HttpResponseRedirect(reverse(index)) #reverse
     else:
