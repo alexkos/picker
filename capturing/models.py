@@ -8,7 +8,7 @@ class CreateSiteManager(models.Manager):
         new_site.save()
 
 class NewSites(models.Model):
-    url  = models.CharField(max_length=100, unique=True)
+    url  = models.CharField(max_length=100)
     user = models.ForeignKey(User)
 
     objects = CreateSiteManager()
