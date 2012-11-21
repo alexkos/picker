@@ -79,9 +79,6 @@ def search(request):
             pages  = data.textsite_set.extra(where=['text_tsv @@ plainto_tsquery(%s)'],
                                              params=[search])
 
-            print '-------------------------'
-            print pages
-            print '-------------------------'
             if not pages:
                 match  = 'Don\'t find of match'
         else:
@@ -94,5 +91,3 @@ def search(request):
                                'search_word': search,
                                'match'      : match},
                                context_instance=context)
-    
-    return HttpResponseRedirect(reverse(main_page)) 
