@@ -2,11 +2,23 @@ from django import forms
 from django.forms import ModelForm
 from capturing.models import NewSites
 from django.contrib.auth.models import User
+from django.core.urlresolvers import reverse
+from django.http import HttpResponse, HttpResponseRedirect
+from django.utils.translation import ugettext_lazy as _
 
 class FormSite(forms.Form):
     url = forms.URLField(max_length=100, 
                          widget=forms.TextInput(attrs={'placeholder': 'Enter url',
                                                        }))
+    def clean_url(self):
+        url      = self.cleaned_data['url']
+        url_splt = url.split('/')
+
+        if len(url_splt) <= 4:
+            return self.cleaned_data['url']
+        else:
+            raise forms.ValidationError(_('Only main domen'))
+
 
 class FormDom(forms.Form):
     def __init__(self,userid,*args,**kwargs):

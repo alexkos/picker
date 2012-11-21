@@ -12,10 +12,10 @@ def parttext(object_text, search_word):
         len_word    = len(search_word)
 
         if place_numb==0:
-            display_text += '<em>' + part[place_numb:len_word] + '</em>' + \
-                            part[len_word:place_numb+30]
+            display_text += '<strong>' + part[place_numb:len_word] + '</strong> ' + \
+                            part[len_word:len_word+30]
         else:
-            display_text += part[place_numb-30:place_numb+30]
+            display_text += part[place_numb-30:place_numb] + ' <strong>'+part[place_numb:place_numb+len_word] + '</strong> ' + part[place_numb+len_word:place_numb+len_word+30]
             # display_text += part[place_numb-30:place_numb+30]
 
     return display_text

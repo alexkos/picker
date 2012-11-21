@@ -9,14 +9,6 @@ from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, HttpResponseRedirect
 from capturing.forms import FormSite, FormDom, FormSearchText
 
-def authorization_dec(view):
-    def wrap(request):
-        if request.user.is_authenticated():
-            return view(request)
-        else:
-            return HttpResponseRedirect(reverse(main_page))
-    return wrap
-
 def main_page(request):
     context = RequestContext(request)
 
@@ -40,8 +32,9 @@ def capture(request):
             path = os.path.join(os.path.abspath(os.path.dirname(__file__)),'../sitecrawler')
             os.popen('cd %s && scrapy crawl pick -a urls=%s -a address_domains=%s -a userid=%s' 
                 % (path, url, domain, userid))
-
-            return HttpResponseRedirect(reverse(capture)) #reverse
+            return HttpResponseRedirect(reverse(capture)) 
+        else:
+            return HttpResponseRedirect(reverse(capture)) 
     else:
         form = FormSite(auto_id=False)
 
