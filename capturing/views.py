@@ -93,6 +93,7 @@ def search(request):
             for page in pages:
                 if search in page.text:
                     txt.append(page.text)
+            print search
 
             return render_to_response('search.html', 
                                       {'form_search': form,
