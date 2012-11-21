@@ -69,7 +69,6 @@ def search(request):
         form   = FormSearchText(userid, auto_id=False)
         match  = ''
 
-        # if request.GET.get('domen','') and request.GET.get('text',''):
         if request.GET:
             siteid = request.GET.get('domen','')
             search = request.GET.get('text','')
