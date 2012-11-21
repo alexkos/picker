@@ -62,8 +62,8 @@ def display_links(request):
                 data   = NewSites.objects.get(id=siteid)
 
                 return render_to_response('display_links.html', 
-                                          {'form_links':form,
-                                           'links':data,},
+                                          {'form_links' : form,
+                                           'links'      : data,},
                                            context_instance=context)
 
         return render_to_response('display_links.html', 
@@ -76,25 +76,33 @@ def search(request):
     if request.method == 'GET':
         userid = request.user.id
         form   = FormSearchText(userid, auto_id=False)
+        match  = ''
 
-        if request.GET:
-            if request.GET['domen'] and request.GET['text']:
-                siteid = request.GET['domen']
-                search = request.GET['text']
-                data   = NewSites.objects.get(id=siteid)
+        if request.GET.get('domen','') and request.GET.get('text',''):
+            siteid = request.GET.get('domen','')
+            search = request.GET.get('text','')
+            form   = FormSearchText(userid, search, auto_id=False)
+            data   = NewSites.objects.get(id=siteid)
 
-                pages  = data.textsite_set.extra(where=['text_tsv @@ plainto_tsquery(%s)'],
-                                                 params=[search])
-                txt = []
-                for page in pages:
-                    if search in page.text:
-                        txt.append(page.text)
-                return render_to_response('search.html', 
-                                          {'form_search':form,
-                                           'pages': pages},
-                                           context_instance=context)
+            pages  = data.textsite_set.extra(where=['text_tsv @@ plainto_tsquery(%s)'],
+                                             params=[search])
+
+            if not pages:
+                match = 'Don\'t find of match'
+            txt = []
+            for page in pages:
+                if search in page.text:
+                    txt.append(page.text)
+
+            return render_to_response('search.html', 
+                                      {'form_search': form,
+                                       'pages'      : pages,
+                                       'search_word': search,
+                                       'match'      : match},
+                                       context_instance=context)
     
         return render_to_response('search.html', 
-                                 {'form_search':form,},
+                                 {'form_search':form,
+                                  'match'      : match},
                                    context_instance=context)
 

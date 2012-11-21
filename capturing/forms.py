@@ -20,13 +20,14 @@ class FormDom(forms.Form):
     domen = forms.ChoiceField()
 
 class FormSearchText(forms.Form):
-    def __init__(self,userid,*args,**kwargs):
+    def __init__(self,userid, word='',*args,**kwargs):
         super (FormSearchText,self ).__init__(*args,**kwargs)
 
         sites    = NewSites.objects.filter(user=userid).values_list('url',flat=True)
         siteid   = NewSites.objects.filter(user=userid).values_list('id',flat=True)
         choices  = zip(siteid, sites)
         self.fields['domen'].choices = choices
+        self.fields['text'].widget.attrs['value'] = word
 
     domen = forms.ChoiceField()
     text  = forms.CharField(max_length=100, 

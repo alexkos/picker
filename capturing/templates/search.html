@@ -7,17 +7,20 @@
     <div class="container content">
         <form class="form-search" action="{% url search %}" method="GET">
             {% csrf_token %}
-            <div class="input-append">
+            <div class="input-prepend input-append">
                 {{form_search}}
                 <button type="submit" class="btn btn-primary">Search</button>
             </div>
         </form>
-
         {% for page in pages %}
         <ul class="unstyled">
             <li><a href="{{page.url}}">{{page.url}}</a></li>
             <li>{{page.title}}</li>
-            <li>{% parttext page %}</li>
+            <li>{% parttext page search_word %}</li>
+        </ul>
+        {% empty %}
+        <ul class="unstyled">
+            <li>{{match}}</li>
         </ul>
         {% endfor %}
     </div>

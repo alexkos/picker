@@ -5,7 +5,7 @@
 {% block content %}
     {% if user.is_authenticated %}
     <form class="form-search" action="{% url capture %}" method="POST">
-        <div class="input-append">
+        <div class="input-append input-prepend">
             {% csrf_token %}
             {{form_site}}
             <button type="submit" class="btn btn-primary">Pick</button>
