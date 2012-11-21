@@ -32,15 +32,13 @@ def capture(request):
             path = os.path.join(os.path.abspath(os.path.dirname(__file__)),'../sitecrawler')
             os.popen('cd %s && scrapy crawl pick -a urls=%s -a address_domains=%s -a userid=%s' 
                 % (path, url, domain, userid))
-            return HttpResponseRedirect(reverse(capture)) 
-        else:
-            return HttpResponseRedirect(reverse(capture)) 
+        return HttpResponseRedirect(reverse(capture)) 
     else:
         form = FormSite(auto_id=False)
 
-        return render_to_response('enter_url.html', 
-                                  {'form_site':form},
-                                   context_instance=context)
+    return render_to_response('enter_url.html', 
+                              {'form_site':form},
+                               context_instance=context)
 
 @login_required
 def display_links(request):
