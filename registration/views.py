@@ -7,7 +7,7 @@ Views which allow users to create and activate accounts.
 from django.shortcuts import redirect
 from django.shortcuts import render_to_response
 from django.template import RequestContext
-
+from registration.forms import ProfileFormModel
 from registration.backends import get_backend
 
 
@@ -201,4 +201,22 @@ def register(request, backend, success_url=None, form_class=None,
 
     return render_to_response(template_name,
                               {'form': form},
+                              context_instance=context)
+
+def profile(request):
+    user = request.user
+    if request.method == 'POST':
+        form = ProfileFormModel(request.POST, instance=user)
+
+        if form.is_valid():
+            password = form.cleaned_data['password_conf']
+            user.set_password(password)
+            form.save()
+    else:
+        form = ProfileFormModel(instance=user)
+
+    context = RequestContext(request)
+    return render_to_response('profile.html',
+                              {'form_profile': form,
+                              },  
                               context_instance=context)

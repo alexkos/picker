@@ -6,13 +6,15 @@
 
 {% if user.username %}
 {% else %}
-    <form method="post" action="{% url user_login %}">
-    {% csrf_token %}
-        {% if next %}
-            <input type="hidden" name="next" value="{{ next }}" />
-        {% endif %}
-        {{form.as_p}}
-            <input type="submit" value="login"/>
+    <form method="post" action="{% url user_login %}" class="form-horizontal">
+        <div class="control-group">
+            <div class="controls">
+			    {% csrf_token %}
+		        {% if next %}
+		            <input type="hidden" name="next" value="{{ next }}" />
+		        {% endif %}
+		        {{form.as_p}}
+            <input type="submit" value="login" class="btn btn-primary"/>
     </form>
 {% endif %}
 {% endblock %}

@@ -7,6 +7,7 @@ Forms and validation code for user registration.
 from django.contrib.auth.models import User
 from django import forms
 from django.utils.translation import ugettext_lazy as _
+from django.forms import ModelForm
 
 
 # I put this on all required fields, because it's easier to pick up
@@ -121,3 +122,19 @@ class RegistrationFormNoFreeEmail(RegistrationForm):
         if email_domain in self.bad_domains:
             raise forms.ValidationError(_("Registration using free email addresses is prohibited. Please supply a different email address."))
         return self.cleaned_data['email']
+
+class ProfileFormModel(ModelForm):
+    class Meta:
+        model  = User
+        fields = ['username']
+
+    password_new  = forms.CharField(max_length=30, widget=forms.PasswordInput,
+                                    required=False)
+    password_conf = forms.CharField(max_length=30, widget=forms.PasswordInput, 
+                                    required=False)
+
+    def clean_pass(self):
+        if self.cleaned_data['password_new'] != self.cleaned_data['password_conf']:
+            raise ValidationError("The two password fields didn't match")
+        else:
+            return self.cleaned_data['password_conf']

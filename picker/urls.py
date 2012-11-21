@@ -10,22 +10,15 @@ admin.autodiscover()
 
 urlpatterns = patterns('',
     (r'', include('capturing.urls')),
-    # Examples:
-    # url(r'^$', 'picker.views.home', name='home'),
-    # url(r'^picker/', include('picker.foo.urls')),
-
-    # Uncomment the admin/doc line below to enable admin documentation:
-    # url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
-
-    # Uncomment the next line to enable the admin:
     url(r'^admin/', include(admin.site.urls)),
 )
-urlpatterns += patterns('',
-    url(r'^accounts/register/$', 'registration.views.register', 
+urlpatterns += patterns('registration.views',
+    url(r'^accounts/register/$', 'register', 
         {'backend': 'registration.backends.default.DefaultBackend',
          'form_class':RegistrationForm,
          'success_url':'/'}, 
         name="registration"),
+    url(r'^profile/$', 'profile', name = 'profile'),
     )
 
 urlpatterns += patterns('django.contrib.auth.views',

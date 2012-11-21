@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block title %}Profile {{user.username}} {% endblock %}
+
+{% block content %}
+    {% if user.is_authenticated %}
+        <form method="post" action="{% url profile %}" class="form-horizontal">
+            <div class="control-group">
+                <div class="controls">
+                    {% csrf_token %}
+                    {{form_profile.as_p}}
+                    <input type="submit" value="Save" class="btn btn-primary"/>
+                </div>
+            </div>
+        </form>
+    {% endif %}
+{% endblock %}

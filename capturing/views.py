@@ -87,15 +87,12 @@ def search(request):
         else:
             pages  = []
             search = ''
-            # for page in pages:
-            #     if search in page.text:
-            #         print search
 
-        return render_to_response('search.html', 
-                                  {'form_search': form,
-                                   'pages'      : pages,
-                                   'search_word': search,
-                                   'match'      : match},
-                                   context_instance=context)
+    return render_to_response('search.html', 
+                              {'form_search': form,
+                               'pages'      : pages,
+                               'search_word': search,
+                               'match'      : match},
+                               context_instance=context)
     
     return HttpResponseRedirect(reverse(main_page)) 
