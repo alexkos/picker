@@ -28,11 +28,12 @@ class PickSpider(CrawlSpider):
 
         user     = User.objects.get(id=self.userid)
         site_obj = NewSites.objects.get(url=self.start_urls[0],user=user)
-        obj_len  = len(site_obj.url.split('.'))
-        item_len = len(response.url.split('.'))        
+        # obj_len  = len(site_obj.url.split('.'))
+        # item_len = len(response.url.split('.'))        
 
         item = DmozItem()
-        if obj_len == item_len:
+        # if obj_len == item_len:
+        if response.url.startswith(self.start_urls[0]):
             item['url']   = response.url
             item['title'] = sites.select('//title/text()').extract()[0]
             item['text']  = text
