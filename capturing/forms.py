@@ -24,7 +24,10 @@ class FormSite(forms.Form):
         match_url   = pattern_url.match(url)
         url_right   = match_url.group(0)
 
-        return url_right
+        if url:
+            return url_right
+        else:
+            raise forms.ValidationError(_("Please enter another differ url"))
 
 class FormDom(forms.Form):
     def __init__(self,userid,*args,**kwargs):
@@ -42,6 +45,6 @@ class FormSearchText(forms.Form):
         self.fields['text'].widget.attrs['value'] = word
 
     site = forms.ChoiceField()
-    text  = forms.CharField(max_length=30, 
+    text  = forms.CharField(max_length=50, 
                          widget=forms.TextInput(attrs={'placeholder': 'Enter word',
                                                        }))

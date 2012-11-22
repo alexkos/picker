@@ -1,4 +1,4 @@
-import os
+import os, re
 from django.template import RequestContext
 from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
@@ -25,7 +25,10 @@ def capture(request):
 
         if form.is_valid():
             url     = form.cleaned_data['url']
-            domain  = url.split('/')[2]
+            pattern = re.compile('\w+://([-\w+.]*)/')
+            match   = pattern.match(url)
+            domain  = match.group(1)
+
             user    = User.objects.get(id=userid)
             newsite = NewSites.objects.create_site(url, user)
 
