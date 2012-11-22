@@ -7,7 +7,6 @@ from scrapy.item import Item, Field
 from capturing.models import TextSite
 
 class DmozItem(Item):
-    # site_model = TextSite
     url   = Field()
     title = Field()
     text  = Field()

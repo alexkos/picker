@@ -18,7 +18,7 @@ class PickSpider(CrawlSpider):
     rules = (Rule(SgmlLinkExtractor(allow=('\/\w+', '(\/\w+)+/'), ), callback='parse_item'), )
 
     def parse_item(self, response):
-        hxs = HtmlXPathSelector(response)
+        hxs   = HtmlXPathSelector(response)
         sites = hxs.select('//html/body')
 
         text = ''
