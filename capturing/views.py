@@ -70,7 +70,7 @@ def search(request):
         match  = ''
 
         if request.GET:
-            siteid = request.GET.get('domen','')
+            siteid = request.GET.get('site','')
             search = request.GET.get('text','')
             form   = FormSearchText(userid, search, auto_id=False)
             data   = NewSites.objects.get(id=siteid)
