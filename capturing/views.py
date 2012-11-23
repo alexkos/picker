@@ -67,25 +67,27 @@ def display_links(request):
 def search(request):
     context = RequestContext(request)
 
-    if request.method == 'GET':
-        userid = request.user.id
-        form   = FormSearchText(userid, auto_id=False)
-        match  = ''
+    userid = request.user.id
+    match  = ''
+    pages  = []
+    search = ''
+    
+    form   = FormSearchText(userid, auto_id=False)
 
-        if request.GET:
-            siteid = request.GET.get('site','')
-            search = request.GET.get('text','')
-            form   = FormSearchText(userid, search, auto_id=False)
-            data   = NewSites.objects.get(id=siteid)
-
-            pages  = data.textsite_set.extra(where=['text_tsv @@ plainto_tsquery(%s)'],
+    if request.GET:
+        siteid = request.GET.get('site','')
+        search = request.GET.get('text','')
+        form   = FormSearchText(userid, search, auto_id=False)
+        if form.is_valid():
+            data  = NewSites.objects.get(id=siteid)
+            pages = data.textsite_set.extra(where=['text_tsv @@ plainto_tsquery(%s)'],
                                              params=[search])
-
             if not pages:
                 match  = 'Don\'t find of match'
+            print '!!!!'
         else:
-            pages  = []
-            search = ''
+            print '#####'
+
 
     return render_to_response('search.html', 
                               {'form_search': form,
