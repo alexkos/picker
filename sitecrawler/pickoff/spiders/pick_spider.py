@@ -37,5 +37,3 @@ class PickSpider(CrawlSpider):
             item['site']  = site_obj
             
         return item
-        # print '---------------------'
-        # print '===================='

@@ -14,7 +14,4 @@ class SitePipeline(object):
                           site =item['site']
                           )
         textsite.save()
-        # try:
-        # except IntegrityError, e:
-        #     print e
         return item
