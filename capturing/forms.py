@@ -31,11 +31,9 @@ class FormSite(forms.Form):
             raise forms.ValidationError(_("Please enter another differ url"))
 
 class FormDom(forms.Form):
-    def __init__(self,userid,*args,**kwargs):
+    def __init__(self,userid=None,*args,**kwargs):
         super (FormDom,self ).__init__(*args,**kwargs)
-
-        self.fields['domen'].choices = get_tuple_url(userid)
-
+        self.fields['domen'] = forms.ChoiceField(choices=get_tuple_url(userid)) 
     domen = forms.ChoiceField()
 
 class FormSearchText(forms.Form):

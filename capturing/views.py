@@ -35,6 +35,7 @@ def capture(request):
             path = os.path.join(os.path.abspath(os.path.dirname(__file__)),'../sitecrawler')
             os.popen('cd %s && scrapy crawl pick -a urls=%s -a address_domains=%s -a userid=%s' 
                 % (path, url, domain, userid))
+        print form.data
         return HttpResponseRedirect(reverse(capture)) 
     else:
         form = FormSite(auto_id=False)
@@ -47,16 +48,17 @@ def capture(request):
 def display_links(request):
     context = RequestContext(request)
     
-    if request.method == 'GET':
-        userid = request.user.id
-        form   = FormDom(userid, auto_id=False)
+    data = ''
+    userid = request.user.id
+    form   = FormDom(userid, auto_id=False)
 
-        siteid = request.GET.get('domen','')
-
-        if not siteid:
-            data = ''
-        else:
-            data = NewSites.objects.get(id=siteid)
+    if request.GET:
+        form = FormDom(userid, request.GET, auto_id=False)
+        if form.is_valid():
+            siteid = request.GET.get('domen','')
+            if siteid:
+                data = NewSites.objects.get(id=siteid)
+            print 'form is valid!!!'
 
     return render_to_response('display_links.html', 
                               {'form_links' : form,
@@ -67,27 +69,25 @@ def display_links(request):
 def search(request):
     context = RequestContext(request)
 
-    userid = request.user.id
-    match  = ''
-    pages  = []
-    search = ''
-    
-    form   = FormSearchText(userid, auto_id=False)
+    if request.method == 'GET':
+        userid = request.user.id
+        form   = FormSearchText(userid, auto_id=False)
+        match  = ''
 
-    if request.GET:
-        siteid = request.GET.get('site','')
-        search = request.GET.get('text','')
-        form   = FormSearchText(userid, search, auto_id=False)
-        if form.is_valid():
-            data  = NewSites.objects.get(id=siteid)
-            pages = data.textsite_set.extra(where=['text_tsv @@ plainto_tsquery(%s)'],
+        if request.GET:
+            siteid = request.GET.get('site','')
+            search = request.GET.get('text','')
+            form   = FormSearchText(userid, search, auto_id=False)
+            data   = NewSites.objects.get(id=siteid)
+
+            pages  = data.textsite_set.extra(where=['text_tsv @@ plainto_tsquery(%s)'],
                                              params=[search])
+
             if not pages:
                 match  = 'Don\'t find of match'
-            print '!!!!'
         else:
-            print '#####'
-
+            pages  = []
+            search = ''
 
     return render_to_response('search.html', 
                               {'form_search': form,
