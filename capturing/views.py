@@ -83,6 +83,7 @@ def search(request):
 
             if not pages:
                 match = 'Don\'t find of match'
+
     else:
         form = FormSearchText(userid, auto_id=False)
 

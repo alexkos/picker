@@ -30,8 +30,6 @@ class FormSite(forms.Form):
         else:
             raise forms.ValidationError(_("Please enter another differ url"))
 
-
-
 class FormDom(forms.Form):
     def __init__(self,userid=None,*args,**kwargs):
         super (FormDom,self ).__init__(*args,**kwargs)
@@ -45,6 +43,6 @@ class FormSearchText(forms.Form):
         self.fields['site'] = forms.ChoiceField(choices=get_tuple_url(userid)) 
 
     site = forms.ChoiceField()
-    text  = forms.CharField(max_length=50, 
+    text  = forms.CharField(max_length=50, required=False,
                          widget=forms.TextInput(attrs={'placeholder': 'Enter word',
                                                        }))
