@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.conf import settings
 from django.conf.urls.static import static
-from registration.forms import RegistrationForm
+from registration.forms import RegistrationForm, RegistrationFormUniqueEmail
 from django.conf.urls import patterns, include, url
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 admin.autodiscover()
@@ -13,12 +13,13 @@ urlpatterns = patterns('',
     url(r'^admin/', include(admin.site.urls)),
 )
 urlpatterns += patterns('registration.views',
-    url(r'^accounts/register/$', 'register', 
+    url(r'^register/$', 'register', 
         {'backend': 'registration.backends.default.DefaultBackend',
-         'form_class':RegistrationForm,
+         'form_class':RegistrationFormUniqueEmail,
          'success_url':'/'}, 
         name="registration"),
     url(r'^profile/$', 'profile', name = 'profile'),
+    (r'^accounts/', include('registration.backends.default.urls')),
     )
 
 urlpatterns += patterns('django.contrib.auth.views',

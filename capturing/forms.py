@@ -16,6 +16,7 @@ def get_tuple_url(userid):
 
 class FormSite(forms.Form):
     url = forms.URLField(max_length=100, 
+                         verify_exists=True,
                          widget=forms.TextInput(attrs={'placeholder': 'Enter url',
                                                        }))
     def clean_url(self):
