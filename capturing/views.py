@@ -53,7 +53,7 @@ def display_links(request):
     if request.GET:
         form = FormDom(userid, request.GET, auto_id=False)
         if form.is_valid():
-            siteid = request.GET.get('domen','')
+            siteid = form.cleaned_data['domen']
             data = NewSites.objects.get(id=siteid)
     else:
         form = FormDom(userid, auto_id=False)
