@@ -50,15 +50,14 @@ def display_links(request):
     
     data = ''
     userid = request.user.id
-    form   = FormDom(userid, auto_id=False)
 
     if request.GET:
         form = FormDom(userid, request.GET, auto_id=False)
         if form.is_valid():
             siteid = request.GET.get('domen','')
-            if siteid:
-                data = NewSites.objects.get(id=siteid)
-            print 'form is valid!!!'
+            data = NewSites.objects.get(id=siteid)
+    else:
+        form = FormDom(userid, auto_id=False)
 
     return render_to_response('display_links.html', 
                               {'form_links' : form,
