@@ -35,7 +35,6 @@ def capture(request):
             path = os.path.join(os.path.abspath(os.path.dirname(__file__)),'../sitecrawler')
             os.popen('cd %s && scrapy crawl pick -a urls=%s -a address_domains=%s -a userid=%s' 
                 % (path, url, domain, userid))
-        print form.data
         return HttpResponseRedirect(reverse(capture)) 
     else:
         form = FormSite(auto_id=False)
