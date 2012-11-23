@@ -75,8 +75,8 @@ def search(request):
     if request.GET:
         form = FormSearchText(userid, request.GET, auto_id=False)
         if form.is_valid():
-            siteid = request.GET.get('site','')
-            search = request.GET.get('text','')
+            siteid = form.cleaned_data['site']
+            search = form.cleaned_data['text']
             data   = NewSites.objects.get(id=siteid)
             pages  = data.textsite_set.extra(where=['text_tsv @@ plainto_tsquery(%s)'],
                                              params=[search])
