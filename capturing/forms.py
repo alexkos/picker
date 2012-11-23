@@ -43,7 +43,6 @@ class FormSearchText(forms.Form):
         super (FormSearchText,self ).__init__(*args,**kwargs)
 
         self.fields['site'] = forms.ChoiceField(choices=get_tuple_url(userid)) 
-        # self.fields['text'].widget.attrs['value'] = word
 
     site = forms.ChoiceField()
     text  = forms.CharField(max_length=50, 
