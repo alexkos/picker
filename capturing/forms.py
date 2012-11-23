@@ -43,6 +43,6 @@ class FormSearchText(forms.Form):
         self.fields['site'] = forms.ChoiceField(choices=get_tuple_url(userid)) 
 
     site = forms.ChoiceField()
-    text  = forms.CharField(max_length=50, required=False,
+    text = forms.CharField(max_length=50, required=False,
                          widget=forms.TextInput(attrs={'placeholder': 'Enter word',
                                                        }))
