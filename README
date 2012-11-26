@@ -1,0 +1,4 @@
+ALTER TABLE capturing_textsite ADD COLUMN text_tsv tsvector;
+CREATE TRIGGER tsvectorupdate BEFORE INSERT OR UPDATE ON capturing_textsite FOR EACH ROW EXECUTE PROCEDURE tsvector_update_trigger(text_tsv, 'pg_catalog.english', text);
+CREATE INDEX capturing_textsite_tsv ON capturing_textsite USING gin(text_tsv);
+UPDATE capturing_textsite SET text_tsv=to_tsvector(text);
