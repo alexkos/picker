@@ -3,12 +3,12 @@ Views which allow users to create and activate accounts.
 
 """
 
-
 from django.shortcuts import redirect
 from django.shortcuts import render_to_response
 from django.template import RequestContext
 from registration.forms import ProfileFormModel
 from registration.backends import get_backend
+from django.contrib.auth.decorators import login_required
 
 
 def activate(request, backend,
@@ -203,6 +203,7 @@ def register(request, backend, success_url=None, form_class=None,
                               {'form': form},
                               context_instance=context)
 
+@login_required
 def profile(request):
     user = request.user
     if request.method == 'POST':
