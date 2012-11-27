@@ -1,1 +1,1 @@
-localhost:8000/accounts/activate/{{ activation_key }}/
+{{site}}/accounts/activate/{{ activation_key }}/
