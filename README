@@ -1,3 +1,34 @@
+Must be installed PostgreSQL in system, if not then to make command:
+
+sudo apt-get install postgresql
+sudo passwd postgres
+sudo -u postgres createuser -P django_login
+su postgres
+psql template1
+CREATE DATABASE picker OWNER admin ENCODING 'UTF8';
+
+Edit the Postgres permissions in /etc/postgres/8.4/pg_hba.conf by adding a line as follows after the postgres user line:
+local      django_db   django_login   md5
+
+Then:
+sudo /etc/init.d/postgresql-8.4 restart
+
+After installing psycopg:
+
+sudo apt-get install python-psycopg2
+pip install psycopg2 or easy_installed psycopg2
+sudo apt-get install python-dev postgresql libpq-dev
+
+Edit your settings.py file in the django app directory:
+'ENGINE': 'postgresql_psycopg2',
+'NAME': 'django_db',
+'USER': 'django_login',
+'PASSWORD': 'your_password',
+
+python manage.py syncdb
+
+
+
 ALTER TABLE capturing_textsite ADD COLUMN text_tsv tsvector;
 CREATE TRIGGER tsvectorupdate BEFORE INSERT OR UPDATE ON capturing_textsite FOR EACH ROW EXECUTE PROCEDURE tsvector_update_trigger(text_tsv, 'pg_catalog.english', text);
 CREATE INDEX capturing_textsite_tsv ON capturing_textsite USING gin(text_tsv);

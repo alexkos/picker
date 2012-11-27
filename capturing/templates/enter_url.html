@@ -5,11 +5,18 @@
 {% block content %}
     {% if user.is_authenticated %}
     <form class="form-search" action="{% url capture %}" method="POST">
-        <div class="input-append input-prepend">
-            {% csrf_token %}
-            {{form_site}}
-            <button type="submit" class="btn btn-primary">Pick</button>
+        <div class="input-append texterror">
+        {% csrf_token %}
+        {% if form_site.errors%}
+        	<div class="errortext">
+	        	<p>Please enter valid url</p>
+	        </div>
+        {% endif %}
+	        <input type="text" placeholder="Enter url" name="url" maxlength="30">
+            <button id='pick' type="submit" class="btn btn-primary">Pick</button>
         </div>
     </form>
     {% endif %}
 {% endblock %}
+
+<script type="text/javascript">test();</script>

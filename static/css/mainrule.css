@@ -6,3 +6,7 @@ body {
 a.username{
 	margin: 0 50px;
 }
+
+div.errortext{
+	font-size: 14px;
+}

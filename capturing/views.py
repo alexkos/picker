@@ -17,12 +17,11 @@ def main_page(request):
 
 @login_required
 def capture(request):
-    print request.body
     context = RequestContext(request)
 
     if request.method == 'POST':
         userid = request.user.id
-        form   = FormSite(request.POST)
+        form   = FormSite(request.POST, auto_id=False)
 
         if form.is_valid():
             url     = form.cleaned_data['url']
@@ -36,7 +35,7 @@ def capture(request):
             path = os.path.join(os.path.abspath(os.path.dirname(__file__)),'../sitecrawler')
             os.popen('cd %s && scrapy crawl pick -a urls=%s -a address_domains=%s -a userid=%s' 
                 % (path, url, domain, userid))
-        return HttpResponseRedirect(reverse(capture)) 
+            return HttpResponseRedirect(reverse(display_links)) 
     else:
         form = FormSite(auto_id=False)
 
