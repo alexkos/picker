@@ -17,6 +17,7 @@ def main_page(request):
 
 @login_required
 def capture(request):
+    print request.body
     context = RequestContext(request)
 
     if request.method == 'POST':
