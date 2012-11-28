@@ -61,3 +61,66 @@ ALTER TABLE capturing_textsite ADD COLUMN text_tsv tsvector;
 CREATE TRIGGER tsvectorupdate BEFORE INSERT OR UPDATE ON capturing_textsite FOR EACH ROW EXECUTE PROCEDURE tsvector_update_trigger(text_tsv, 'pg_catalog.english', text);
 CREATE INDEX capturing_textsite_tsv ON capturing_textsite USING gin(text_tsv);
 UPDATE capturing_textsite SET text_tsv=to_tsvector(text);
+
+sudo easy_install -U gunicorn
+sudo apt-get install python-software-properties -y
+sudo apt-get install nginx
+
+Put in *.sh script:
+
+#!/bin/bash
+  set -e
+  LOGFILE=/var/log/gunicorn/picker.log
+  LOGDIR=$(dirname $LOGFILE)
+  NUM_WORKERS=2
+  # user/group to run as
+  # (username) and (usergroup)
+  USER=user  
+  GROUP=user
+  echo "start service"
+  cd /home/user/project/picker
+  test -d $LOGDIR || mkdir -p $LOGDIR
+  gunicorn_django -w $NUM_WORKERS \
+    --user=$USER --group=$GROUP --daemon --log-level=debug \
+    --log-file=$LOGFILE 2>>$LOGFILE 
+
+
+Create conf file for nginx:
+
+server {
+    listen   80;
+    server_name picker.com;
+    # no security problem here, since / is alway passed to upstream
+    root /home/user/project/picker;
+    # serve directly - analogous for static/staticfiles
+    location /media/ {
+        # if asset versioning is used
+        if ($query_string) {
+            expires max;
+        }
+    }
+    location /admin/media/ {
+        # this changes depending on your python version
+        root /path/to/test/lib/python2.6/site-packages/django/contrib;
+    }
+
+    location /static/ {
+        alias /home/user/project/picker/staticfiles/;
+        autoindex off;
+
+     }
+    location / {
+        proxy_pass_header Server;
+        proxy_set_header Host $http_host;
+        proxy_redirect off;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Scheme $scheme;
+        proxy_connect_timeout 10;
+        proxy_read_timeout 10;
+        proxy_pass http://localhost:8000/;
+    }
+    # what to serve if upstream is not available or crashes
+    error_page 500 502 503 504 /media/50x.html;
+}
+
+ ./manage.py collectstatic
