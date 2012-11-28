@@ -1,8 +1,14 @@
-Unwrap project:
+Command which you need:
 
 sudo apt-get install python-dev
 sudo apt-get install libevent-dev
-sudo apt-get install libxml2 libxslt
+sudo easy_install -U gunicorn
+sudo apt-get install python-software-properties -y
+sudo apt-get install nginx
+sudo apt-get install postgresql
+sudo apt-get install postgresql-server-dev-9.1 
+
+Unwrap project:
 
 git clone git://github.com/alexkos/picker.git
 pip install -r requirements.txt
@@ -20,8 +26,6 @@ EMAIL_HOST_PASSWORD    = 'your email password'
 
 Must be installed PostgreSQL in system, if not then to make command:
 
-sudo apt-get install postgresql
-sudo apt-get install postgresql-server-dev-9.1 
 sudo passwd postgres
 sudo -u postgres createuser -P admin
 su postgres
@@ -42,11 +46,6 @@ pip install psycopg2
 		or
 easy_installed psycopg2
 
-Edit your settings.py file in the django app directory:
-'ENGINE': 'postgresql_psycopg2',
-'NAME': 'django_db',
-'USER': 'django_login',
-'PASSWORD': 'your_password',
 
 ./manage.py syncdb
 username: admin
@@ -62,9 +61,6 @@ CREATE TRIGGER tsvectorupdate BEFORE INSERT OR UPDATE ON capturing_textsite FOR 
 CREATE INDEX capturing_textsite_tsv ON capturing_textsite USING gin(text_tsv);
 UPDATE capturing_textsite SET text_tsv=to_tsvector(text);
 
-sudo easy_install -U gunicorn
-sudo apt-get install python-software-properties -y
-sudo apt-get install nginx
 
 Put in *.sh script:
 
