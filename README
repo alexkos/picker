@@ -1,23 +1,46 @@
+Unwrap project:
+
+sudo apt-get install python-dev
+sudo apt-get install libevent-dev
+sudo apt-get install libxml2 libxslt
+
+git clone git://github.com/alexkos/picker.git
+pip install -r requirements.txt
+
+Create settings.py:
+
+In database user:admin, pass:password, name:picker
+
+secret_keys = g56wm7m@aj)4^&amp;2dua!@t21_)b_w_cf8c@p7ltezjglx#$95o@
+email_host  = smtp.yandex.ru
+email_port  = 587
+EMAIL_HOST_USER        = 'your email'
+DEFAULT_FROM_EMAIL     = 'your email'
+EMAIL_HOST_PASSWORD    = 'your email password'
+
 Must be installed PostgreSQL in system, if not then to make command:
 
 sudo apt-get install postgresql
+sudo apt-get install postgresql-server-dev-9.1 
 sudo passwd postgres
-sudo -u postgres createuser -P django_login
+sudo -u postgres createuser -P admin
 su postgres
 psql template1
 CREATE DATABASE picker OWNER admin ENCODING 'UTF8';
 
-Edit the Postgres permissions in /etc/postgres/8.4/pg_hba.conf by adding a line as follows after the postgres user line:
-local      django_db   django_login   md5
+Edit the Postgres permissions in /etc/postgresql/9.1/main/pg_hba.conf by adding a line as follows after the postgres user line:
+local      picker   admin   md5
+host all all 0.0.0.0/0  md5
 
 Then:
-sudo /etc/init.d/postgresql-8.4 restart
+sudo /etc/init.d/postgresql restart
 
 After installing psycopg:
 
 sudo apt-get install python-psycopg2
-pip install psycopg2 or easy_installed psycopg2
-sudo apt-get install python-dev postgresql libpq-dev
+pip install psycopg2 
+		or
+easy_installed psycopg2
 
 Edit your settings.py file in the django app directory:
 'ENGINE': 'postgresql_psycopg2',
@@ -25,10 +48,15 @@ Edit your settings.py file in the django app directory:
 'USER': 'django_login',
 'PASSWORD': 'your_password',
 
-python manage.py syncdb
+./manage.py syncdb
+username: admin
+email:your_email
+password: password
 
+Then to perform command in root project, where is 
+./manage.py migrate capturing
 
-
+./manage.py dbshell
 ALTER TABLE capturing_textsite ADD COLUMN text_tsv tsvector;
 CREATE TRIGGER tsvectorupdate BEFORE INSERT OR UPDATE ON capturing_textsite FOR EACH ROW EXECUTE PROCEDURE tsvector_update_trigger(text_tsv, 'pg_catalog.english', text);
 CREATE INDEX capturing_textsite_tsv ON capturing_textsite USING gin(text_tsv);
