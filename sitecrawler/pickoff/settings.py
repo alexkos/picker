@@ -12,9 +12,11 @@ from django.core.management import setup_environ
 
 BOT_NAME = 'pickoff'
 
-SPIDER_MODULES = ['pickoff.spiders']
+current_folder = os.path.join(os.path.abspath(os.path.dirname(__file__)),'../')
+
+SPIDER_MODULES   = ['pickoff.spiders']
 NEWSPIDER_MODULE = 'pickoff.spiders'
-ITEM_PIPELINES = ['pickoff.pipelines.SitePipeline']
+ITEM_PIPELINES   = ['pickoff.pipelines.SitePipeline']
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
 #USER_AGENT = 'pickoff (+http://www.yourdomain.com)'
@@ -23,3 +25,6 @@ current_dir = os.path.abspath(os.path.dirname(os.path.dirname(__file__)))
 django_app = os.path.join(current_dir, '../')
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "picker.settings")
 sys.path.insert(0, django_app)
+
+LOG_FILE = os.path.join(current_folder, '~log.scrapy.log')
+LOG_STDOUT = True
