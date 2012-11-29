@@ -6,10 +6,12 @@
     <form class="form-search" action="{% url capture %}" method="POST">
         <div class="input-append texterror">
         {% csrf_token %}
-        {{form_site}}
+        {% if form_site.errors %}
+    		{{form_site.errors}}
+        	<p class="errorlist">Enter a valid URL</p>
+        {% endif%}
+        	<input type="text" placeholder="Enter url" name="url" maxlength="100">
             <button id='pick' type="submit" class="btn btn-primary">Pick</button>
         </div>
     </form>
 {% endblock %}
-
-<script type="text/javascript">test();</script>

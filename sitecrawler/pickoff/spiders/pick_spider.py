@@ -10,12 +10,11 @@ from scrapy.contrib.linkextractors.sgml import SgmlLinkExtractor
 class PickSpider(CrawlSpider):
     def __init__(self, address_domains=None, urls=None, userid=None):
         super(PickSpider, self).__init__()
-        self.start_urls      = ["%s" % urls]
-        self.allowed_domains = ["%s" % address_domains]
-        self.userid          = int('%s' % userid)
-        self.rules = (Rule(SgmlLinkExtractor(allow=('\/\w+', '(\/\w+)+/'), ), callback='parse_item', follow=True), )
+        self.start_urls       = ["%s" % urls]
+        self.allowed_domains  = ["%s" % address_domains,]
+        self.userid           = int('%s' % userid)
     name = "pick"
-
+    rules = (Rule(SgmlLinkExtractor(allow=('\/\w+', '(\/\w+)+/')), callback='parse_item', follow=False), )
 
     def parse_item(self, response):
         hxs   = HtmlXPathSelector(response)

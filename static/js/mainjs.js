@@ -3,9 +3,6 @@ $(document).ready(function() {
         e.preventDefault();
         $(this).tab('show');
     });
-	test = function () {
-		$('#pick').click(function(event) {
-			alert('aaa');	
-		});
-	}
+	$('#pick').click(function() {
+	});
 })

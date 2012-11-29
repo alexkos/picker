@@ -49,6 +49,7 @@ def display_links(request):
     
     data = ''
     userid = request.user.id
+    urls = NewSites.objects.filter(user=userid)
 
     if request.GET:
         form = FormDom(userid, request.GET, auto_id=False)
@@ -60,7 +61,8 @@ def display_links(request):
 
     return render_to_response('display_links.html', 
                               {'form_links' : form,
-                               'links'      : data,},
+                               'links'      : data,
+                               'urls'       : urls,},
                                context_instance=context)
 
 @login_required
@@ -71,6 +73,7 @@ def search(request):
     search = ''
     pages  = []
     userid = request.user.id
+    urls = NewSites.objects.filter(user=userid)
 
     if request.GET:
         form = FormSearchText(userid, request.GET, auto_id=False)
@@ -91,5 +94,6 @@ def search(request):
                               {'form_search': form,
                                'pages'      : pages,
                                'search_word': search,
-                               'match'      : match},
+                               'match'      : match,
+                               'urls'       : urls,},
                                context_instance=context)

@@ -26,5 +26,5 @@ django_app = os.path.join(current_dir, '../')
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "picker.settings")
 sys.path.insert(0, django_app)
 
-LOG_FILE = os.path.join(current_folder, '~log.scrapy.log')
-LOG_STDOUT = True
+# LOG_FILE = os.path.join(current_folder, '~log.scrapy.log')
+# LOG_STDOUT = True

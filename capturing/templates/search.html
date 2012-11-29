@@ -8,7 +8,12 @@
         <form class="form-search" action="{% url search %}" method="GET">
             {% csrf_token %}
             <div class="input-prepend input-append">
-                {{form_search}}
+                <select name="site">
+                {% for url in urls %}
+                    <option value="{{url.id}}">{{url.url}}</option>
+                {% endfor %}
+                </select>
+                <input type="text" placeholder="Enter word" name="text" maxlength="50">
                 <button type="submit" class="btn btn-primary">Search</button>
             </div>
         </form>

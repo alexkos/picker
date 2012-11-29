@@ -6,7 +6,11 @@
     <form class="form-search" method="GET" action="{% url links %}">
         <div class="input-append input-prepend">
             {% csrf_token %}
-            {{form_links}}
+            <select name="domen">
+            {% for url in urls %}
+                <option value="{{url.id}}">{{url.url}}</option>
+            {% endfor %}
+            </select>
             <input type="submit" class="btn btn-primary" value="Display"/>
         </div>
     </form>
