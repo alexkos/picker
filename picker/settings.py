@@ -16,7 +16,7 @@ MANAGERS = ADMINS
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
-        'NAME': 'picker',                      # Or path to database file if using sqlite3.
+        'NAME': '',                      # Or path to database file if using sqlite3.
         'USER': '',                      # Not used with sqlite3.
         'PASSWORD': '',                  # Not used with sqlite3.
         'HOST': 'localhost',                      # Set to empty string for localhost. Not used with sqlite3.
@@ -167,3 +167,8 @@ EMAIL_HOST_PASSWORD    = ''
 EMAIL_PORT             = ''
 # DEFAULT_FROM_EMAIL     = 'webmaster@localhost'
 LOGIN_REDIRECT_URL = reverse_lazy('capture')
+
+try:
+    from local_settings import *
+except:
+    pass

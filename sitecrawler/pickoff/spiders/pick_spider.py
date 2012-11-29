@@ -15,7 +15,7 @@ class PickSpider(CrawlSpider):
         self.userid          = int('%s' % userid)
     name = "pick"
 
-    rules = (Rule(SgmlLinkExtractor(allow=('\/\w+', '(\/\w+)+/'), ), callback='parse_item'), )
+    rules = (Rule(SgmlLinkExtractor(allow=('\/\w+', '(\/\w+)+/'), ), callback='parse_item', follow=True), )
 
     def parse_item(self, response):
         hxs   = HtmlXPathSelector(response)
