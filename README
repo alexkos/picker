@@ -55,8 +55,9 @@ pip install psycopg2
 		or
 easy_installed psycopg2
 
-
+Create tables in django project:
 ./manage.py syncdb
+
 username: name_admin
 email:your_email
 password: password
@@ -70,12 +71,14 @@ CREATE TRIGGER tsvectorupdate BEFORE INSERT OR UPDATE ON capturing_textsite FOR 
 CREATE INDEX capturing_textsite_tsv ON capturing_textsite USING gin(text_tsv);
 UPDATE capturing_textsite SET text_tsv=to_tsvector(text);
 
+./manage.py collectstatic
 
 Put in *.sh script:
 
 #!/bin/bash
   set -e
-  LOGFILE=/var/log/gunicorn/picker.log
+  #Create file and give it access rights:
+  LOGFILE=/var/log/gunicorn/picker.log 
   LOGDIR=$(dirname $LOGFILE)
   NUM_WORKERS=2
   # user/group to run as
@@ -96,7 +99,7 @@ server {
     listen   80;
     server_name picker.com;
     # no security problem here, since / is alway passed to upstream
-    root /home/user/project/picker;
+    root /path/to/your/project/;
     # serve directly - analogous for static/staticfiles
     location /media/ {
         # if asset versioning is used
@@ -104,13 +107,8 @@ server {
             expires max;
         }
     }
-    location /admin/media/ {
-        # this changes depending on your python version
-        root /path/to/test/lib/python2.6/site-packages/django/contrib;
-    }
-
     location /static/ {
-        alias /home/user/project/picker/staticfiles/;
+        alias /path/to/your/project/staticfiles/;
         autoindex off;
 
      }
@@ -120,7 +118,6 @@ server {
         proxy_redirect off;
         proxy_set_header X-Real-IP $remote_addr;
         proxy_set_header X-Scheme $scheme;
-        proxy_connect_timeout 10;
         proxy_read_timeout 10;
         proxy_pass http://localhost:8000/;
     }
@@ -128,4 +125,3 @@ server {
     error_page 500 502 503 504 /media/50x.html;
 }
 
-./manage.py collectstatic
