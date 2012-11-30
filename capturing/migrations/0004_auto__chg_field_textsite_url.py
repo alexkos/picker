@@ -11,6 +11,10 @@ class Migration(SchemaMigration):
 
         # Changing field 'TextSite.url'
         db.alter_column('capturing_textsite', 'url', self.gf('django.db.models.fields.URLField')(max_length=100))
+        db.execute('ALTER TABLE capturing_textsite ADD COLUMN text_tsv tsvector;')
+        db.execute('CREATE TRIGGER tsvectorupdate BEFORE INSERT OR UPDATE ON capturing_textsite FOR EACH ROW EXECUTE PROCEDURE tsvector_update_trigger(text_tsv, "pg_catalog.english", text);')
+        db.execute('CREATE INDEX capturing_textsite_tsv ON capturing_textsite USING gin(text_tsv);')
+        db.execute('UPDATE capturing_textsite SET text_tsv=to_tsvector(text);')
 
     def backwards(self, orm):
 

@@ -64,15 +64,6 @@ password: password
 Then to perform command in root project, where is 
 ./manage.py migrate capturing
 
-./manage.py dbshell
-
-Perform command in:
-
-ALTER TABLE capturing_textsite ADD COLUMN text_tsv tsvector;
-CREATE TRIGGER tsvectorupdate BEFORE INSERT OR UPDATE ON capturing_textsite FOR EACH ROW EXECUTE PROCEDURE tsvector_update_trigger(text_tsv, 'pg_catalog.english', text);
-CREATE INDEX capturing_textsite_tsv ON capturing_textsite USING gin(text_tsv);
-UPDATE capturing_textsite SET text_tsv=to_tsvector(text);
-
 ./manage.py collectstatic
 
 Put in *.sh script:
@@ -126,4 +117,16 @@ server {
     # what to serve if upstream is not available or crashes
     error_page 500 502 503 504 /media/50x.html;
 }
+
+
+If appear problem with database, use command:
+
+./manage.py dbshell
+
+Perform command in:
+
+ALTER TABLE capturing_textsite ADD COLUMN text_tsv tsvector;
+CREATE TRIGGER tsvectorupdate BEFORE INSERT OR UPDATE ON capturing_textsite FOR EACH ROW EXECUTE PROCEDURE tsvector_update_trigger(text_tsv, 'pg_catalog.english', text);
+CREATE INDEX capturing_textsite_tsv ON capturing_textsite USING gin(text_tsv);
+UPDATE capturing_textsite SET text_tsv=to_tsvector(text);
 
