@@ -6,6 +6,7 @@
     <form class="form-search" action="{% url capture %}" method="POST">
         <div class="input-append texterror">
         {% csrf_token %}
+            <p class="errorlist">{{error}}</p>
         {% if form_site.errors %}
     		{{form_site.errors}}
         	<p class="errorlist">Enter a valid URL</p>

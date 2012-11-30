@@ -19,6 +19,15 @@ class FormSite(forms.Form):
                          verify_exists=True,
                          widget=forms.TextInput(attrs={'placeholder': 'Enter url',
                                                        }))
+    def clean_exist(self):
+        url = self.cleaned_data['url']
+
+        site = NewSites.objects.filter(url=url)
+        if site:
+            raise forms.ValidationError(_("This url already exist. Please enter different url"))
+        else:
+            return url
+            
     def clean_url(self):
         url         = self.cleaned_data['url']
         pattern_url = re.compile('\w+://[-\w+.]*/')

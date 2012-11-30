@@ -18,6 +18,7 @@ def main_page(request):
 @login_required
 def capture(request):
     context = RequestContext(request)
+    error   = ''
 
     if request.method == 'POST':
         userid = request.user.id
@@ -30,17 +31,24 @@ def capture(request):
             domain  = match.group(1)
 
             user    = User.objects.get(id=userid)
-            newsite = NewSites.objects.create_site(url, user)
+            obj     = NewSites.objects.filter(url=url)
 
-            path = os.path.join(os.path.abspath(os.path.dirname(__file__)),'../sitecrawler')
-            os.popen('cd %s && scrapy crawl pick -a urls=%s -a address_domains=%s -a userid=%s' 
-                % (path, url, domain, userid))
-            return HttpResponseRedirect(reverse(display_links)) 
+            if obj:
+                error = 'This object already exist'
+            else:
+                newsite = NewSites.objects.create_site(url, user)
+
+                path = os.path.join(os.path.abspath(os.path.dirname(__file__)),'../sitecrawler')
+                os.popen('cd %s && scrapy crawl pick -a urls=%s -a address_domains=%s -a userid=%s' 
+                    % (path, url, domain, userid))
+                return HttpResponseRedirect(reverse(display_links)) 
+
     else:
         form = FormSite(auto_id=False)
 
     return render_to_response('enter_url.html', 
-                              {'form_site':form},
+                              {'form_site': form,
+                               'error'    : error},
                                context_instance=context)
 
 @login_required
