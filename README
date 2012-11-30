@@ -1,6 +1,4 @@
-##########
 Command which you need:
-##########
 
 sudo apt-get install python-dev
 sudo easy_install -U gunicorn
@@ -9,9 +7,7 @@ sudo apt-get install postgresql
 sudo apt-get install postgresql-server-dev-9.1 
 sudo apt-get install python-lxml
 
-##########
 Unwrap project:
-##########
 
 git clone git://github.com/alexkos/picker.git
 pip install -r requirements.txt
@@ -46,6 +42,7 @@ psql
 CREATE DATABASE database_name OWNER name_admin ENCODING 'UTF8';
 
 Edit the Postgres permissions in /etc/postgresql/9.1/main/pg_hba.conf by adding a line as follows after the postgres user line:
+
 local      database_name   name_user_db   md5
 host all all 0.0.0.0/0  md5
 
@@ -131,4 +128,4 @@ server {
     error_page 500 502 503 504 /media/50x.html;
 }
 
- ./manage.py collectstatic
+./manage.py collectstatic

@@ -7,13 +7,13 @@
     <div class="container content">
         <form class="form-search" action="{% url search %}" method="GET">
             {% csrf_token %}
-            <div class="input-prepend input-append">
-                <select name="site">
+            <div class="input-append">
+                <select class="search-query" name="site">
                 {% for url in urls %}
-                    <option value="{{url.id}}">{{url.url}}</option>
+                    <option class="search-query" value="{{url.id}}">{{url.url}}</option>
                 {% endfor %}
                 </select>
-                <input type="text" placeholder="Enter word" name="text" maxlength="50">
+                <input class="formtext" type="text" placeholder="Enter word" name="text" maxlength="50">
                 <button type="submit" class="btn btn-primary">Search</button>
             </div>
         </form>

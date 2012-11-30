@@ -4,11 +4,10 @@
 
 {% block content %}
     <form class="form-search" action="{% url capture %}" method="POST">
-        <div class="input-append texterror">
+        <div class="input-append">
         {% csrf_token %}
             <p class="errorlist ">{{error}}</p>
         {% if form_site.errors %}
-            {{form_site.errors}}
             <p class="errorlist">Enter a valid URL</p>
         {% endif%}
             <input class="search-query" type="text" placeholder="Enter url" name="url" maxlength="100">

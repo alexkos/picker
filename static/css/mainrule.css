@@ -14,3 +14,7 @@ div.errortext{
 .errorlist{
 	font-size: 14px;
 }
+
+input.formtext{
+	border-radius: 0px ;
+}

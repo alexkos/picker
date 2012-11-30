@@ -4,14 +4,14 @@
 
 {% block content %}
     <form class="form-search" method="GET" action="{% url links %}">
-        <div class="input-append input-prepend">
+        <div class="input-append">
             {% csrf_token %}
-            <select name="domen">
+            <select class="search-query" name="domen">
             {% for url in urls %}
                 <option value="{{url.id}}">{{url.url}}</option>
             {% endfor %}
             </select>
-            <input type="submit" class="btn btn-primary" value="Display"/>
+            <input type="submit" class="btn btn-primary search-query" value="Display"/>
         </div>
     </form>
     <table class="table table-striped">
