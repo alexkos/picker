@@ -65,6 +65,9 @@ Then to perform command in root project, where is
 ./manage.py migrate capturing
 
 ./manage.py dbshell
+
+Perform command in:
+
 ALTER TABLE capturing_textsite ADD COLUMN text_tsv tsvector;
 CREATE TRIGGER tsvectorupdate BEFORE INSERT OR UPDATE ON capturing_textsite FOR EACH ROW EXECUTE PROCEDURE tsvector_update_trigger(text_tsv, 'pg_catalog.english', text);
 CREATE INDEX capturing_textsite_tsv ON capturing_textsite USING gin(text_tsv);
@@ -96,7 +99,7 @@ Create conf file for nginx:
 
 server {
     listen   80;
-    server_name picker.com;
+    server_name yourdomain_name.domain;
     # no security problem here, since / is alway passed to upstream
     root /path/to/your/project/;
     # serve directly - analogous for static/staticfiles
