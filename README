@@ -13,7 +13,7 @@ git clone git://github.com/alexkos/picker.git
 pip install -r requirements.txt
 
 
-In settings.py which store into picker of directory: user:your_username, pass:your_password, name:database_name
+Copy data and put your settings from local_settings_default in local_settings and add in git ignore which store into picker of directory: 
 
 DATABASES = {
     'default': {
