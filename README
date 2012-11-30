@@ -27,7 +27,6 @@ DATABASES = {
 }
 
 
-
 EMAIL_HOST             = 'your_smpt_server'
 EMAIL_HOST_USER        = 'your_email'
 DEFAULT_FROM_EMAIL     = 'your_email'
