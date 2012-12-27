@@ -88,10 +88,8 @@ def search(request):
         if form.is_valid():
             siteid = form.cleaned_data['site']
             search = form.cleaned_data['text']
-            data   = NewSites.objects.get(id=siteid)
-            pages  = data.textsite_set.extra(where=['text_tsv @@ plainto_tsquery(%s)'],
-                                             params=[search])
-
+            data   = TextSite.search.query(search)
+            pages  = [x for x in data.all()]
             if not pages:
                 match = 'Don\'t find of match'
 
