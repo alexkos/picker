@@ -34,7 +34,7 @@ def capture(request):
             obj     = NewSites.objects.filter(url=url)
 
             if obj:
-                error = 'This object already exist'
+                error = 'This site is already exist'
             else:
                 newsite = NewSites.objects.create_site(url, user)
 
