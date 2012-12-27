@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from djangosphinx.models import SphinxSearch
 from django.template.defaultfilters import slugify
 
 class CreateSiteManager(models.Manager):
@@ -21,6 +22,7 @@ class TextSite(models.Model):
     title = models.CharField(max_length=200)
     text  = models.TextField()
     site  = models.ForeignKey(NewSites)
+    search = SphinxSearch('capturing_textsite') 
 
     def __unicode__(self):
         return self.url
