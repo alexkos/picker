@@ -90,6 +90,7 @@ def search(request):
             search = form.cleaned_data['text']
             data   = TextSite.search.query(search)
             pages  = [x for x in data.all()]
+            print pages
             if not pages:
                 match = 'Don\'t find of match'
 

@@ -134,7 +134,7 @@ http://se888.wordpress.com/2012/05/26/%D0%BF%D0%BE%D0%BB%D0%BD%D0%BE%D1%82%D0%B5
 
 
 
-added in local_setting:
+added in local_setting for django-sphinx:
 
 SPHINX_SERVER = 'localhost'
 SPHINX_PORT = 9312
